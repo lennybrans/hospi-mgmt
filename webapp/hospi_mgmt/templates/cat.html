@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="grid grid-cols-2 gap-6 sm:grid-cols-2">
+  {% for space in availability %}
+  
+  <!-- Card -->
+  <div class="max-w-sm p-6 {% if space.occupant %}bg-red-200{% else %}bg-green-200{% endif %} border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+      {{ space.pk }} - {{ space.occupant.name|default:'Vacia' }}
+    </h5>
+    
+    {% if space.occupant %}
+      <p class="mb-3 font-normal {% if space.occupant %}text-red-700 dark:text-red-400{% else %}text-green-700 dark:text-green-400{% endif %}">
+        Peso: <span class="text-gray-900 dark:text-white">
+          {% if space.occupant.weight %}{{ space.occupant.weight }} kg{% else %}🤷🏼‍♂️{% endif %}
+        </span>
+      </p>
+
+      <p class="mb-3 font-normal {% if space.occupant %}text-red-700 dark:text-red-400{% else %}text-green-700 dark:text-green-400{% endif %}">
+        Motivo de consulta: <span class="text-gray-900 dark:text-white">
+          {{ space.occupant.motive|default:'N/A' }}
+        </span>
+      </p>
+      
+      {% if space.occupant.attention %}
+        <p class="mb-3 font-normal {% if space.occupant %}text-red-700 dark:text-red-400{% else %}text-green-700 dark:text-green-400{% endif %}">
+          ‼️ Attention: <span class="text-gray-900 dark:text-white">
+            {{ space.occupant.attention }}
+          </span>
+        </p>
+      {% endif %} 
+
+      <div class="flex">
+        {% for material in space.occupant.material.all %}
+          <div class="flex items-center me-4">
+            <input
+              checked disabled
+              id="inline-radio" 
+              type="checkbox" 
+              value="{{ material.name|lower }}" 
+              name="inline-radio-group" 
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label 
+              for="inline-radio"
+              class="ms-2 text-sm font-normal text-gray-700 dark:text-gray-400">
+              {{ material.name }}
+            </label>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="mt-5 flex justify-center gap-10">
+        <a href="{% url 'edit' pk=space.occupant.pk %}" rel="noopener">
+          <button
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Editar
+            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+            </svg>
+          </button>
+        </a>
+  
+        <a href="{% url 'delete' pk=space.occupant.pk %}" rel="noopener">
+          <button
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Borrar
+            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+            </svg>
+          </button>
+        </a>
+      </div>
+    {% else %}
+      <div>
+        <a href="{% url 'create' pk=space.pk %}" rel="noopener">
+          <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Crear
+            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+            </svg>
+          </button>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

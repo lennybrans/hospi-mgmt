@@ -7,3 +7,6 @@ class OccupantForm(forms.ModelForm):
     class Meta:
         model = Occupant
         fields = "__all__"
+        widgets = {
+            'material': forms.CheckboxSelectMultiple(),
+        }

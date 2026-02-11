@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<form method="POST" class="max-w-sm mx-auto space-y-4">
+  {% csrf_token %}
+  {% for field in form %}
+    <div>
+      {{ field.help_text }}
+      {{ field }}
+      <span class="text-red-400">{{ field.errors }}</span>
+    </div>
+  {% endfor %}
+  <input type="submit" value="Crear" />
+</form>
+{% endblock %}
