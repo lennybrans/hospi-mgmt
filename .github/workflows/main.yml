@@ -23,13 +23,13 @@ jobs:
         source: "."
         target: ${{ secrets.DESTINATION_FOLDER }}
 
-    - name: Restart Docker containers
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.SERVER_IP }}
-        username: ${{ secrets.SERVER_USER }}
-        key: ${{ secrets.DEPLOY_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd ${{ secrets.DESTINATION_FOLDER }}
-          ./restart.sh
+    # - name: Restart Docker containers
+    #   uses: appleboy/ssh-action@v1.0.0
+    #   with:
+    #     host: ${{ secrets.SERVER_IP }}
+    #     username: ${{ secrets.SERVER_USER }}
+    #     key: ${{ secrets.DEPLOY_KEY }}
+    #     port: ${{ secrets.SSH_PORT }}
+    #     script: |
+    #       cd ${{ secrets.DESTINATION_FOLDER }}
+    #       ./restart.sh
