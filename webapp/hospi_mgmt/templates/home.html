@@ -1,0 +1,79 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<!-- Main content -->
+<main>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-11/12 max-w-5xl">
+    <a
+      id="catBtn"
+      href="{% url 'gato' %}"
+      class="relative h-72 rounded-2xl overflow-hidden shadow-lg bg-gray-300"
+    >
+      <div class="absolute inset-0 flex items-center justify-center z-10 bg-black/30">
+        <span class="text-white text-3xl font-bold">
+          Gat@
+        </span>
+      </div>
+      <div id="catMedia" class="absolute inset-0"></div>
+    </a>
+
+    <a
+      id="dogBtn"
+      href="{% url 'perro' %}"
+      class="relative h-72 rounded-2xl overflow-hidden shadow-lg bg-gray-300"
+    >
+      <div class="absolute inset-0 flex items-center justify-center z-10 bg-black/30">
+        <span class="text-white text-3xl font-bold">
+          Perr@
+        </span>
+      </div>
+      <div id="dogMedia" class="absolute inset-0"></div>
+    </a>
+  </div>
+</main>
+{% endblock %}
+
+{% block extra_script %}
+<script>
+  function renderMedia(container, url) {
+    container.innerHTML = "";
+
+    if (url.endsWith(".mp4") || url.endsWith(".webm")) {
+      const video = document.createElement("video");
+      video.src = url;
+      video.autoplay = true;
+      video.loop = true;
+      video.muted = true;
+      video.className = "w-full h-full object-cover";
+      container.appendChild(video);
+    } else {
+      const img = document.createElement("img");
+      img.src = url;
+      img.className = "w-full h-full object-cover";
+      container.appendChild(img);
+    }
+  }
+
+  async function loadCat() {
+    const container = document.getElementById("catMedia");
+
+    const useGif = Math.random() > 0.5;
+    const url = useGif
+      ? `https://cataas.com/cat/gif?${Date.now()}`
+      : `https://cataas.com/cat?${Date.now()}`;
+
+    renderMedia(container, url);
+  }
+
+  async function loadDog() {
+    const container = document.getElementById("dogMedia");
+    const res = await fetch("https://random.dog/woof.json");
+    const data = await res.json();
+    renderMedia(container, data.url);
+  }
+
+  // Initial media
+  loadCat();
+  loadDog();
+</script>
+{% endblock %}

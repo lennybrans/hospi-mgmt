@@ -26,16 +26,8 @@ class Availability(models.Model):
     def occupied(self):
         return hasattr(self, "occupant")
 
-
-class Material(models.Model):
-    name = models.CharField(
-        db_column='attribute_name',
-        max_length=20,
-        help_text='Nombre del attributo'
-    )
-
-    def __str__(self):
-        return self.name
+    class Meta:
+        verbose_name_plural = 'Availabilities'
 
 
 class Occupant(models.Model):
