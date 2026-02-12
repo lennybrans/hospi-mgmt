@@ -57,21 +57,30 @@ class Occupant(models.Model):
     )
     weight = models.FloatField(
         db_column='weight_animal',
-        help_text="Peso del animal"
+        help_text="Peso del animal",
+        blank=True
     )
     motive = models.CharField(
         db_column="motive",
         max_length=127,
-        help_text="Motivo de consulta"
+        help_text="Motivo de consulta",
+        blank=True
+    )
+    correa = models.CharField(
+        db_column='correa_description',
+        max_length=31,
+        help_text="Descripción correa",
+        blank=True
+    )
+    transportin = models.CharField(
+        db_column='transportin_description',
+        max_length=31,
+        help_text="Descripción transportín",
+        blank=True
     )
     attention = models.TextField(
         db_column="attention",
-        help_text="Attention"
-    )
-    material = models.ManyToManyField(
-        Material,
-        db_column="material_name",
-        help_text="Correa o/y Transportín",
+        help_text="Attention",
         blank=True
     )
 
