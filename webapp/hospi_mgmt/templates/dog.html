@@ -1,13 +1,13 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<div class="grid grid-cols-5 gap-6">
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-5">
   {% for space in availability %}
   
   <!-- Card -->
   <div class="max-w-sm p-6 border border-gray-200 rounded-lg shadow-sm
     {% if space.occupant %}bg-red-200{% else %}bg-green-200{% endif %}
-    {% if forloop.counter > 6 %}col-span-2{% else %}col-span-1{% endif %}
+    {% if forloop.counter > 6 %}sm:col-span-2{% else %}sm:col-span-1{% endif %}
   ">
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
       {{ space.pk }} - {{ space.occupant.name|default:'Vacia' }}
