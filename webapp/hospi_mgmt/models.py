@@ -50,30 +50,35 @@ class Occupant(models.Model):
     weight = models.FloatField(
         db_column='weight_animal',
         help_text="Peso del animal",
-        blank=True
+        blank=True,
+        null=True
     )
     motive = models.CharField(
         db_column="motive",
         max_length=127,
         help_text="Motivo de consulta",
-        blank=True
+        blank=True,
+        null=True
     )
     correa = models.CharField(
         db_column='correa_description',
         max_length=31,
         help_text="Descripción correa",
-        blank=True
+        blank=True,
+        null=True
     )
     transportin = models.CharField(
         db_column='transportin_description',
         max_length=31,
         help_text="Descripción transportín",
-        blank=True
+        blank=True,
+        null=True
     )
     attention = models.TextField(
         db_column="attention",
         help_text="Attention",
-        blank=True
+        blank=True,
+        null=True
     )
 
     def __str__(self):

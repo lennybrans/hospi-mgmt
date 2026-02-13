@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 from webapp.config import Config
@@ -83,10 +84,16 @@ LOGIN_REDIRECT_URL = "/home"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+if DEBUG:
+    DB_DIR = BASE_DIR
+else:
+    DB_DIR = Path(os.environ.get("DJANGO_DB_DIR", "/data"))
+    DB_DIR.mkdir(parents=True, exist_ok=True)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': DB_DIR / 'db.sqlite3',
     }
 }
 

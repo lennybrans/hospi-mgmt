@@ -14,12 +14,18 @@ services:
       DJANGO_LOGLEVEL: ${DJANGO_LOGLEVEL}
       DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-127.0.0.1}
       DJANGO_SUPERUSER_PASSWORD: ${SUP:-p4ssw0rd}
+      DJANGO_DB_DIR: /data
 
+    volumes:
+      - sqlite_data:/data
+    
     command: >
       sh -c "
-        python3 manage.py makemigrations &&
         python3 manage.py migrate &&
         python3 manage.py collectstatic --noinput &&
         python3 manage.py createsuperuser --noinput --username admin --email info@example.com &&
         exec gunicorn --bind 0.0.0.0:8000 --workers 3 webapp.wsgi:application
       "
+
+volumes:
+  sqlite_data:
