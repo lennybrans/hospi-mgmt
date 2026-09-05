@@ -8,13 +8,14 @@ class Availability(models.Model):
     id = models.AutoField(primary_key=True)
     space = models.IntegerField(
         db_column="hospi",
-        verbose_name="hospi number",
-        help_text="Number of the hospi"
+        verbose_name="número de hospi",
+        help_text="Número del hospi"
     )
     dedicated = models.CharField(
         db_column='type_of_animal',
         max_length=3,
-        help_text="Short code of animal (GAT or PER)",
+        verbose_name="tipo de animal",
+        help_text="Código corto del animal (GAT o PER)",
         choices=[("GAT", "cat"), ("PER", "dog")]
     )
 
@@ -43,7 +44,7 @@ class Occupant(models.Model):
         on_delete=models.CASCADE,
         db_column='space_occupant',
         related_name="occupant",
-        help_text="Eliga un espacio",
+        verbose_name="espacio",
         error_messages={
             "unique": "Este espacio ya está ocupado."
         },
@@ -51,11 +52,12 @@ class Occupant(models.Model):
     name = models.CharField(
         db_column="name_occupant",
         max_length=25,
-        verbose_name="occupant",
+        verbose_name="nombre",
         help_text="Nombre del animal"
     )
     weight = models.FloatField(
         db_column='weight_animal',
+        verbose_name="peso",
         help_text="Peso del animal",
         blank=True,
         null=True
@@ -63,6 +65,7 @@ class Occupant(models.Model):
     motive = models.CharField(
         db_column="motive",
         max_length=127,
+        verbose_name="motivo de consulta",
         help_text="Motivo de consulta",
         blank=True,
         null=True
@@ -70,6 +73,7 @@ class Occupant(models.Model):
     correa = models.CharField(
         db_column='correa_description',
         max_length=31,
+        verbose_name="correa",
         help_text="Descripción correa",
         blank=True,
         null=True
@@ -77,13 +81,15 @@ class Occupant(models.Model):
     transportin = models.CharField(
         db_column='transportin_description',
         max_length=31,
+        verbose_name="transportín",
         help_text="Descripción transportín",
         blank=True,
         null=True
     )
     attention = models.TextField(
         db_column="attention",
-        help_text="Attention",
+        verbose_name="atención",
+        help_text="Notas de atención",
         blank=True,
         null=True
     )
