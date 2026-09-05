@@ -1,11 +1,36 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
+
+{% block title %}Eliminar ocupante | Hospi management{% endblock %}
 
 {% block content %}
-<form method="POST" class="max-w-sm mx-auto">
-  {% csrf_token %}
-  <p class="mb-3 text-gray-500 dark:text-gray-400">Are you sure you want to delete <strong class="font-semibold text-gray-900 dark:text-white">"{{ object }}"</strong>?</p>
-  {{ form }}
-  <input type="submit" value="Confirm" class="text-white bg-red-800 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-</form>
+<div class="mx-auto w-full max-w-sm">
+  <a href="{% url 'home' %}" class="mb-6 inline-flex items-center gap-2 text-sm font-medium text-teal-600 hover:underline">
+    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+    </svg>
+    Volver al inicio
+  </a>
+  <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <h2 class="text-2xl font-bold text-slate-900">
+      Confirmar eliminación
+    </h2>
+    <p class="mt-4 text-sm text-slate-600">
+      ¿Seguro que quieres eliminar a <strong class="font-semibold text-slate-900">{{ object }}</strong>?
+    </p>
 
+    <form method="POST" class="mt-8 flex flex-col gap-3 sm:flex-row-reverse">
+      {% csrf_token %}
+      <button
+        type="submit"
+        class="w-full px-5 py-3 text-base font-medium text-center text-white bg-rose-600 rounded-lg hover:bg-rose-700 focus:ring-4 focus:ring-rose-300 sm:flex-1">
+        Eliminar
+      </button>
+      <a
+        href="{% url 'home' %}"
+        class="w-full block px-5 py-3 text-base font-medium text-center text-slate-900 bg-white border border-slate-300 rounded-lg hover:bg-slate-100 focus:ring-4 focus:ring-slate-200 sm:flex-1">
+        Cancelar
+      </a>
+    </form>
+  </div>
+</div>
 {% endblock %}
