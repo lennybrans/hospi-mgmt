@@ -1,0 +1,36 @@
+{% load static %}
+<div class="flex items-center justify-between py-3">
+  <a href="{% url 'home' %}" class="shrink-0" aria-label="Inicio">
+    <img src="{% static 'img/logo-tobys.svg' %}" alt="Tobys Veterinaria" class="h-12 w-auto sm:h-14">
+  </a>
+
+  <div class="relative">
+    <button
+      id="userMenuButton"
+      data-dropdown-toggle="userMenu"
+      data-dropdown-placement="bottom-end"
+      type="button"
+      title="{{ user.username }}"
+      class="flex h-9 w-9 items-center justify-center rounded-full bg-teal-600 text-sm font-semibold text-white hover:bg-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-200 sm:h-10 sm:w-10"
+    >
+      <span class="sr-only">Abrir menú de usuario</span>
+      {{ user.username|first|upper }}
+    </button>
+
+    <div id="userMenu" class="z-20 hidden w-48 divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white shadow-lg">
+      <div class="py-1">
+        <a href="{% url 'password_change' %}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">
+          Cambiar contraseña
+        </a>
+      </div>
+      <div class="py-1">
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">
+            Cerrar sesión
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
