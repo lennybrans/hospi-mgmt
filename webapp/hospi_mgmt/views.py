@@ -8,11 +8,6 @@ from hospi_mgmt.models import Availability, Occupant
 
 
 # Create your views here.
-
-def index(request):
-    return render(request, "index.html")
-
-
 @login_required
 def home(request):
     return render(request, "home.html")
@@ -48,7 +43,6 @@ class OccupantCreate(CreateView):
         initial["space"] = self.kwargs["pk"]
         return initial
 
-
     def get_success_url(self):
         if self.object.space.dedicated == "GAT":
             return reverse("gato")
@@ -64,10 +58,6 @@ class OccupantUpdate(UpdateView):
         if self.object.space.dedicated == "GAT":
             return reverse("gato")
         return reverse("perro")
-
-
-class OccupantDetail(DetailView):
-    pass
 
 
 class OccupantDelete(DeleteView):

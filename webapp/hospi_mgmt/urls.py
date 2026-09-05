@@ -4,8 +4,7 @@ from django.contrib.auth.decorators import login_required
 from hospi_mgmt import views as vw
 
 urlpatterns = [
-    path('', vw.index, name='index'),
-    path('home', vw.home, name='home'),
+    path('', vw.home, name='home'),
     path('gato', vw.gato_view, name='gato'),
     path('perro', vw.perro_view, name='perro'),
     path(
@@ -17,11 +16,6 @@ urlpatterns = [
         '<int:pk>/edit',
         login_required(vw.OccupantUpdate.as_view()),
         name='edit'
-    ),
-    path(
-        '<int:pk>/detail',
-        login_required(vw.OccupantDetail.as_view()),
-        name='detail'
     ),
     path(
         '<int:pk>/delete',
