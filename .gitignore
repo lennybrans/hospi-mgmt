@@ -194,4 +194,5 @@ cython_debug/
 .cursorindexingignore
 
 # Other
-# webapp/*/migrations/*
+.env*
+!.env.example
