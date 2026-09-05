@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
-import os
 from pathlib import Path
 
 from webapp.config import Config
@@ -30,6 +29,20 @@ SECRET_KEY = Config.SECRET_KEY
 DEBUG = bool(Config.DEBUG == '1')
 
 ALLOWED_HOSTS = Config.DJANGO_ALLOWED_HOSTS
+
+CSRF_TRUSTED_ORIGINS = ["https://hospi.tradewindsfv.com"]
+
+
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 90
+
+# For Safari browser, else conflict
+if DEBUG:
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+else:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Application definition
@@ -60,7 +73,7 @@ ROOT_URLCONF = 'webapp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,22 +91,20 @@ WSGI_APPLICATION = 'webapp.wsgi.application'
 # Auth
 
 AUTH_USER_MODEL = 'accounts.User'
-LOGIN_REDIRECT_URL = "/home"
+LOGIN_REDIRECT_URL = "/"
 
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-if DEBUG:
-    DB_DIR = BASE_DIR
-else:
-    DB_DIR = Path(os.environ.get("DJANGO_DB_DIR", "/data"))
-    DB_DIR.mkdir(parents=True, exist_ok=True)
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DB_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': Config.POSTGRES_DB,
+        'USER': Config.POSTGRES_USER,
+        'PASSWORD': Config.POSTGRES_PASSWORD,
+        'HOST': Config.POSTGRES_HOST,
+        'PORT': Config.POSTGRES_PORT,
     }
 }
 
@@ -121,6 +132,23 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': Config.DJANGO_LOGLEVEL,
+    },
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
@@ -142,13 +170,3 @@ STATICFILES_DIRS = [BASE_DIR / "static_dev"]
 STATIC_URL = 'static/'
 # The intermediate folder for 'collectstatic'
 STATIC_ROOT = BASE_DIR / 'static'
-
-CSRF_TRUSTED_ORIGINS = ["https://*.tradewindsfv.com"]
-
-# For Safari browser, else conflict
-if DEBUG:
-    CSRF_COOKIE_SECURE = False
-    SESSION_COOKIE_SECURE = False
-else:
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
