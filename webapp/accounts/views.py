@@ -12,6 +12,13 @@ class CustomLoginView(auth_views.LoginView):
     """Custom login view."""
     template_name = 'login.html'
 
+    def form_valid(self, form):
+        remember = self.request.POST.get("remember")
+        response = super().form_valid(form)
+        if not remember:
+            self.request.session.set_expiry(0)
+        return response
+
 
 class CustomLogoutView(auth_views.LogoutView):
     """Custom logout view."""
