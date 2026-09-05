@@ -33,6 +33,7 @@ class Availability(models.Model):
     class Meta:
         db_table = 'availability'
         verbose_name_plural = 'Availabilities'
+        ordering = ['space']
 
 
 class Occupant(models.Model):
