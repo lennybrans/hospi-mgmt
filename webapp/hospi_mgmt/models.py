@@ -3,6 +3,9 @@ from django.db import models
 
 # Create your models here.
 class Availability(models.Model):
+    """A hospi space and the type of animal it is dedicated to."""
+
+    id = models.AutoField(primary_key=True)
     space = models.IntegerField(
         db_column="hospi",
         verbose_name="hospi number",
@@ -27,10 +30,14 @@ class Availability(models.Model):
         return hasattr(self, "occupant")
 
     class Meta:
+        db_table = 'availability'
         verbose_name_plural = 'Availabilities'
 
 
 class Occupant(models.Model):
+    """The animal occupying a hospi space, and its intake details."""
+
+    occupant_id = models.AutoField(primary_key=True)
     space = models.OneToOneField(
         Availability,
         on_delete=models.CASCADE,
