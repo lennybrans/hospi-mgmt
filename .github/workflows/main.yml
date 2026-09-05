@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v7
 
     - name: Copy code to remote server
       uses: appleboy/scp-action@v0.1.4
@@ -22,14 +22,3 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         source: "."
         target: ${{ secrets.DESTINATION_FOLDER }}
-
-    # - name: Restart Docker containers
-    #   uses: appleboy/ssh-action@v1.0.0
-    #   with:
-    #     host: ${{ secrets.SERVER_IP }}
-    #     username: ${{ secrets.SERVER_USER }}
-    #     key: ${{ secrets.DEPLOY_KEY }}
-    #     port: ${{ secrets.SSH_PORT }}
-    #     script: |
-    #       cd ${{ secrets.DESTINATION_FOLDER }}
-    #       ./restart.sh
