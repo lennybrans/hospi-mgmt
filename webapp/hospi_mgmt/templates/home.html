@@ -1,36 +1,33 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<!-- Main content -->
-<main>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-11/12 max-w-5xl">
-    <a
-      id="catBtn"
-      href="{% url 'gato' %}"
-      class="relative h-72 rounded-2xl overflow-hidden shadow-lg bg-gray-300"
-    >
-      <div class="absolute inset-0 flex items-center justify-center z-10 bg-black/30">
-        <span class="text-white text-3xl font-bold">
-          Gat@
-        </span>
-      </div>
-      <div id="catMedia" class="absolute inset-0"></div>
-    </a>
+<div class="mx-auto grid w-full max-w-5xl grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2">
+  <a
+    id="catBtn"
+    href="{% url 'gato' %}"
+    class="relative h-56 overflow-hidden rounded-2xl bg-slate-200 shadow-lg transition hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-teal-300 sm:h-72"
+  >
+    <div class="absolute inset-0 z-10 flex items-center justify-center bg-black/30">
+      <span class="text-3xl font-bold text-white">
+        Gat@
+      </span>
+    </div>
+    <div id="catMedia" class="absolute inset-0"></div>
+  </a>
 
-    <a
-      id="dogBtn"
-      href="{% url 'perro' %}"
-      class="relative h-72 rounded-2xl overflow-hidden shadow-lg bg-gray-300"
-    >
-      <div class="absolute inset-0 flex items-center justify-center z-10 bg-black/30">
-        <span class="text-white text-3xl font-bold">
-          Perr@
-        </span>
-      </div>
-      <div id="dogMedia" class="absolute inset-0"></div>
-    </a>
-  </div>
-</main>
+  <a
+    id="dogBtn"
+    href="{% url 'perro' %}"
+    class="relative h-56 overflow-hidden rounded-2xl bg-slate-200 shadow-lg transition hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-teal-300 sm:h-72"
+  >
+    <div class="absolute inset-0 z-10 flex items-center justify-center bg-black/30">
+      <span class="text-3xl font-bold text-white">
+        Perr@
+      </span>
+    </div>
+    <div id="dogMedia" class="absolute inset-0"></div>
+  </a>
+</div>
 {% endblock %}
 
 {% block extra_script %}
