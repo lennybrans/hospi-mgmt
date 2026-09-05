@@ -1,31 +1,45 @@
 name: hospi-mgmt
 
+networks:
+  app-network:
+
+volumes:
+  pg-data:
+
 services:
+  db:
+    image: postgres:18
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    ports:
+      - 127.0.0.1:5431:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pg-data:/var/lib/postgresql
+
   django-app:
     build: .
-    restart: always
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env.local
     ports:
       - 127.0.0.1:8000:8000
-    env_file:
-      - .env
-    environment:
-      DJANGO_SECRET_KEY: ${SECRET_KEY}
-      DEBUG: ${DEBUG}
-      DJANGO_LOGLEVEL: ${DJANGO_LOGLEVEL}
-      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-127.0.0.1}
-      DJANGO_SUPERUSER_PASSWORD: ${SUP:-p4ssw0rd}
-      DJANGO_DB_DIR: /data
-
-    volumes:
-      - sqlite_data:/data
-    
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/accounts/login/')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     command: >
       sh -c "
         python3 manage.py migrate &&
-        python3 manage.py collectstatic --noinput &&
-        python3 manage.py createsuperuser --noinput --username admin --email info@example.com &&
         exec gunicorn --bind 0.0.0.0:8000 --workers 3 webapp.wsgi:application
       "
-
-volumes:
-  sqlite_data:
